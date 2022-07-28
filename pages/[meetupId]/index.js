@@ -1,9 +1,21 @@
-import React from "react";
+import React, { Fragment } from "react";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 import { MongoClient, ObjectId } from "mongodb";
+import Head from "next/head";
 
 export default function MeetupDetailPage(props) {
-  return <MeetupDetail meetupData={props.meetupData} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>{props.meetupData.title}</title>
+        <meta
+          name="description"
+          content={props.meetupData.description}
+        />
+      </Head>
+      <MeetupDetail meetupData={props.meetupData} />
+    </Fragment>
+  );
 }
 
 export async function getStaticPaths() {
@@ -50,7 +62,7 @@ export async function getStaticProps(context) {
         title: meetup.title,
         image: meetup.image,
         description: meetup.description,
-        address: meetup.address
+        address: meetup.address,
       },
     },
   };
