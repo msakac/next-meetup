@@ -1,7 +1,5 @@
-import React from 'react'
-
-export default function MeetupDetail() {
-  return (
-    <div>index</div>
-  )
+import React, { Fragment } from 'react'
+import MeetupDetail from '../../components/meetups/MeetupDetail'
+export default function MeetupDetailPage() {
+    return <MeetupDetail/>
 }
