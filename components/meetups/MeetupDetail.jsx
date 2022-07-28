@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import classes from './MeetupDetail.module.css'
 
 export default function MeetupDetail({meetupData}) {
