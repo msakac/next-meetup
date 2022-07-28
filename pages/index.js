@@ -1,4 +1,5 @@
 import MeetupList from '../components/meetups/MeetupList'
+import {MongoClient} from 'mongodb';
 
 const DUMMY_MEETUPS = [
     {
@@ -20,7 +21,7 @@ const DUMMY_MEETUPS = [
         title: 'Third meetup',
         image: 'https://media.timeout.com/images/103364239/image.jpg',
         address: ' Ul. Grada Lipika 15, 42204, Donji Kneginec',
-        description: 'This is our third meetup'
+        description: 'Ul. Grada Lipika 15, 42204, Donji Kneginec'
     },
 ]
 
@@ -35,9 +36,24 @@ export async function getStaticProps() {
   //Static Site Generation
   //revalidate = Incremental Static Site Generation -> regenerated on the server every X seconds
   //its time that waits before
+
+  const client = await MongoClient.connect('mongodb+srv://msakac:12131213@cluster0.r8dwj.mongodb.net/meetups?retryWrites=true&w=majority');
+  const db = client.db();
+
+  const meetupsCollection = db.collection('meetups');
+
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
   return {
     props: {
-      meetups: DUMMY_MEETUPS
+      meetups: meetups.map(meetup => ({
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        id: meetup._id.toString()
+      }))
     }
   };
 }
